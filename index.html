@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Gioco</title>
+    <style>
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        #grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            gap: 10px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cell.active {
+            background-color: yellow;
+        }
+
+        #score {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        #start-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="grid-container">
+            <!-- Celle della griglia -->
+        </div>
+        <div id="score">Punteggio: 0</div>
+        <button id="start-btn">Inizia Gioco</button>
+    </div>
+
+    <script>
+        const gridContainer = document.getElementById('grid-container');
+        const scoreElement = document.getElementById('score');
+        const startButton = document.getElementById('start-btn');
+        const gridSize = 16; // 4x4 grid
+        let score = 0;
+        let gameActive = false;
+        let activeCell = null;
+        let timer;
+
+        for (let i = 0; i < gridSize; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.addEventListener('click', () => {
+                if (cell.classList.contains('active') && gameActive) {
+                    score++;
+                    scoreElement.innerText = `Punteggio: ${score}`;
+                }
+            });
+            gridContainer.appendChild(cell);
+        }
+
+        startButton.addEventListener('click', () => {
+            score = 0;
+            scoreElement.innerText = `Punteggio: ${score}`;
+            gameActive = true;
+            startGame();
+        });
+
+        function startGame() {
+            clearInterval(timer);
+            timer = setInterval(() => {
+                deactivateCell();
+                activateRandomCell();
+            }, 1000); // Change active cell every second
+
+            setTimeout(() => {
+                gameActive = false;
+                clearInterval(timer);
+                deactivateCell();
+                alert(`Gioco finito! Punteggio finale: ${score}`);
+            }, 30000); // Game lasts for 30 seconds
+        }
+
+        function activateRandomCell() {
+            const cells = document.querySelectorAll('.cell');
+            const randomIndex = Math.floor(Math.random() * cells.length);
+            const cell = cells[randomIndex];
+            cell.classList.add('active');
+            activeCell = cell;
+        }
+
+        function deactivateCell() {
+            if (activeCell) {
+                activeCell.classList.remove('active');
+                activeCell = null;
+            }
+        }
+    </script>
+</body>
+</html>
+
