@@ -47,7 +47,7 @@
 <body>
     <div id="game-container">
         <div id="grid-container">
-            <!-- Celle della griglia -->
+            
         </div>
         <div id="score">Punteggio: 0</div>
         <button id="start-btn">Inizia Gioco</button>
@@ -57,7 +57,7 @@
         const gridContainer = document.getElementById('grid-container');
         const scoreElement = document.getElementById('score');
         const startButton = document.getElementById('start-btn');
-        const gridSize = 16; // 4x4 grid
+        const gridSize = 16; 
         let score = 0;
         let gameActive = false;
         let activeCell = null;
@@ -87,14 +87,14 @@
             timer = setInterval(() => {
                 deactivateCell();
                 activateRandomCell();
-            }, 1000); // Change active cell every second
+            }, 1000);
 
             setTimeout(() => {
                 gameActive = false;
                 clearInterval(timer);
                 deactivateCell();
                 alert(`Gioco finito! Punteggio finale: ${score}`);
-            }, 30000); // Game lasts for 30 seconds
+            }, 30000); 
         }
 
         function activateRandomCell() {
